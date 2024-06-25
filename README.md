@@ -62,7 +62,7 @@ The application supports the following commands:
 
 - **LIST**: List directories and subdirectories under a specified path.
   - Format: `LIST`
-  - Example: `LIST`, `LIST`
+  - Example: `LIST`
 
 ### Examples
 
