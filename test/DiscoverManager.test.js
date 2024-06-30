@@ -1,4 +1,4 @@
-const DirectoryManager = require("../classes/DirectoryManager");
+import DirectoryManager from "../classes/DirectoryManager";
 
 describe("DirectoryManager", () => {
   let manager;
@@ -44,10 +44,8 @@ describe("DirectoryManager", () => {
   });
 
   test("Delete non-existent directory", () => {
-    const result = manager.deleteDirectory("Animals/Cat");
-
-    expect(result).toEqual(
-      'Cannot delete "Animals/Cat" - Animals does not exist.'
-    );
+    expect(() => {
+      manager.deleteDirectory("Animals/Cat");
+    }).toThrowError("non-existent directory");
   });
 });
