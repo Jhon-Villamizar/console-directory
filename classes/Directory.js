@@ -30,4 +30,4 @@ class Directory {
   }
 }
 
-module.exports = Directory;
+export default Directory;

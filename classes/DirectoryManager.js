@@ -1,4 +1,4 @@
-const Directory = require("./Directory");
+import Directory from "./Directory.js";
 
 class DirectoryManager {
   constructor() {
@@ -41,6 +41,7 @@ class DirectoryManager {
         currentDirectory = newDirectory;
       } else {
         currentDirectory = foundChild;
+        throw new Error("the directory already exists");
       }
     }
   }
@@ -49,12 +50,12 @@ class DirectoryManager {
   moveDirectory(sourcePath, targetPath) {
     const sourceDirectory = this.findDirectory(sourcePath);
     if (!sourceDirectory) {
-      return;
+      throw new Error(`${sourcePath} non-existent directory`);
     }
 
     const targetDirectory = this.findDirectory(targetPath);
     if (!targetDirectory) {
-      return;
+      throw new Error(`${targetPath} non-existent directory`);
     }
     sourceDirectory.parent.removeChild(sourceDirectory.name);
     sourceDirectory.setParent(targetDirectory);
@@ -65,10 +66,7 @@ class DirectoryManager {
   deleteDirectory(path) {
     const directoryToDelete = this.findDirectory(path);
     if (!directoryToDelete) {
-      console.log(
-        `Cannot delete "${path}" - ${path.split("/")[0]} does not exist.`
-      );
-      return `Cannot delete "${path}" - ${path.split("/")[0]} does not exist.`;
+      throw new Error(`non-existent directory`);
     }
 
     if (directoryToDelete === this.root) {
@@ -84,9 +82,8 @@ class DirectoryManager {
     if (!directoryToList) {
       return "Cannot list directories";
     }
-
     directoryToList.listChildren();
   }
 }
 
-module.exports = DirectoryManager;
+export default DirectoryManager;

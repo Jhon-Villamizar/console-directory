@@ -1,5 +1,5 @@
-const readline = require("readline");
-const DirectoryManager = require("./classes/DirectoryManager");
+import readline from "readline";
+import DirectoryManager from "./classes/DirectoryManager.js";
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -13,35 +13,36 @@ const parseCommand = (command) => {
   switch (parts[0]) {
     case "CREATE":
       if (parts.length !== 2) {
-        break;
+        throw new Error("secund parameter is required");
       }
-      manager.createDirectory(parts[1]);
-      break;
+      return manager.createDirectory(parts[1]);
     case "MOVE":
       if (parts.length !== 3) {
-        break;
+        throw new Error("all three parameters are required");
       }
       manager.moveDirectory(parts[1], parts[2]);
       break;
     case "DELETE":
       if (parts.length !== 2) {
-        break;
+        throw new Error("secund parameter is required");
       }
       manager.deleteDirectory(parts[1]);
       break;
     case "LIST":
-      if (parts.length !== 1) {
-        break;
-      }
       manager.listDirectories("/");
       break;
     default:
+      throw new Error("Unknown command");
   }
 };
 
 function startConsole() {
   rl.question("Enter a command (CREATE, MOVE, DELETE, LIST): ", (command) => {
-    parseCommand(command);
+    try {
+      parseCommand(command);
+    } catch (error) {
+      console.error(error.message);
+    }
     startConsole();
   });
 }
